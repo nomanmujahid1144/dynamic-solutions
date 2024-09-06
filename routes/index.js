@@ -24,52 +24,54 @@ router.post("/", function (req, res) {
 
   try {
 
-    const oauth2Client = new OAuth2(
-      process.env.CLIENT_ID, // ClientID
-      process.env.CLIENT_SECRET, // Client Secret
-      process.env.REDIRECT_URL // Redirect URL
-    );
+    if (userName && phoneNumber && email && message) {
+      const oauth2Client = new OAuth2(
+        process.env.CLIENT_ID, // ClientID
+        process.env.CLIENT_SECRET, // Client Secret
+        process.env.REDIRECT_URL // Redirect URL
+      );
 
-    oauth2Client.setCredentials({
-      refresh_token: process.env.REFRESH_TOKEN,
-    });
+      oauth2Client.setCredentials({
+        refresh_token: process.env.REFRESH_TOKEN,
+      });
 
-    const accessToken = oauth2Client.getAccessToken();
+      const accessToken = oauth2Client.getAccessToken();
 
-    const output = `
-              <h2>From Dynamic Solutions Contact Us Form</h2>
-              <p><b>User Info: </b> ${userName} with ${email} and ${phoneNumber} sends you a message.</p>
-              <p>${message}</p>
-    `;
+      const output = `
+                <h2>From Dynamic Solutions Contact Us Form</h2>
+                <p><b>User Info: </b> ${userName} with ${email} and ${phoneNumber} sends you a message.</p>
+                <p>${message}</p>
+      `;
 
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        type: "OAuth2",
-        user: process.env.EMAIL,
-        clientId: process.env.CLIENT_ID,
-        clientSecret: process.env.CLIENT_SECRET,
-        refreshToken: process.env.REFRESH_TOKEN,
-        accessToken: accessToken,
-      },
-    });
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          type: "OAuth2",
+          user: process.env.EMAIL,
+          clientId: process.env.CLIENT_ID,
+          clientSecret: process.env.CLIENT_SECRET,
+          refreshToken: process.env.REFRESH_TOKEN,
+          accessToken: accessToken,
+        },
+      });
 
-    // send mail with defined transport object
-    const mailOptions = {
-      from: `"${process.env.SENDER_NAME}" <${process.env.EMAIL}>`, // sender address
-      to: process.env.EMAIL, // list of receivers
-      subject: "Contact Us Form ✔", // Subject line
-      html: output, // html body
-    };
+      // send mail with defined transport object
+      const mailOptions = {
+        from: `"${process.env.SENDER_NAME}" <${process.env.EMAIL}>`, // sender address
+        to: process.env.EMAIL, // list of receivers
+        subject: "Contact Us Form ✔", // Subject line
+        html: output, // html body
+      };
 
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log("Mail sent : %s", info.response);
-        return res.render("index", { success: true });
-      }
-    });
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log("Mail sent : %s", info.response);
+          return res.render("index", { success: true });
+        }
+      });
+    }
 
   } catch (err) {
     // return next(new ErrorResponse(err, 400));
@@ -175,52 +177,56 @@ router.post("/contact", function (req, res) {
 
   try {
 
-    const oauth2Client = new OAuth2(
-      process.env.CLIENT_ID, // ClientID
-      process.env.CLIENT_SECRET, // Client Secret
-      process.env.REDIRECT_URL // Redirect URL
-    );
+    if (userName && phoneNumber && email && message) {
+      const oauth2Client = new OAuth2(
+        process.env.CLIENT_ID, // ClientID
+        process.env.CLIENT_SECRET, // Client Secret
+        process.env.REDIRECT_URL // Redirect URL
+      );
 
-    oauth2Client.setCredentials({
-      refresh_token: process.env.REFRESH_TOKEN,
-    });
+      oauth2Client.setCredentials({
+        refresh_token: process.env.REFRESH_TOKEN,
+      });
 
-    const accessToken = oauth2Client.getAccessToken();
+      const accessToken = oauth2Client.getAccessToken();
 
-    const output = `
-              <h2>From Dynamic Solutions Contact Us Form</h2>
-              <p><b>User Info: </b> ${userName} with ${email} and ${phoneNumber} sends you a message.</p>
-              <p>${message}</p>
-    `;
+      const output = `
+                <h2>From Dynamic Solutions Contact Us Form</h2>
+                <p><b>User Info: </b> ${userName} with ${email} and ${phoneNumber} sends you a message.</p>
+                <p>${message}</p>
+      `;
 
-    const transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        type: "OAuth2",
-        user: process.env.EMAIL,
-        clientId: process.env.CLIENT_ID,
-        clientSecret: process.env.CLIENT_SECRET,
-        refreshToken: process.env.REFRESH_TOKEN,
-        accessToken: accessToken,
-      },
-    });
+      const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+          type: "OAuth2",
+          user: process.env.EMAIL,
+          clientId: process.env.CLIENT_ID,
+          clientSecret: process.env.CLIENT_SECRET,
+          refreshToken: process.env.REFRESH_TOKEN,
+          accessToken: accessToken,
+        },
+      });
 
-    // send mail with defined transport object
-    const mailOptions = {
-      from: `"${process.env.SENDER_NAME}" <${process.env.EMAIL}>`, // sender address
-      to: process.env.EMAIL, // list of receivers
-      subject: "Contact Us Form ✔", // Subject line
-      html: output, // html body
-    };
+      // send mail with defined transport object
+      const mailOptions = {
+        from: `"${process.env.SENDER_NAME}" <${process.env.EMAIL}>`, // sender address
+        to: process.env.EMAIL, // list of receivers
+        subject: "Contact Us Form ✔", // Subject line
+        html: output, // html body
+      };
 
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log("Mail sent : %s", info.response);
-        return res.render("contact", { success: true });
-      }
-    });
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.log(error);
+        } else {
+          console.log("Mail sent : %s", info.response);
+          return res.render("contact", { success: true });
+        }
+      });
+    }
+
+
 
   } catch (err) {
     // return next(new ErrorResponse(err, 400));
